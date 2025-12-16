@@ -1,3 +1,11 @@
+## 1.0.0 (2025-12-16)
+
+### Features
+
+* add Rust and Go packages with semantic-release ([2865177](https://github.com/stefanwiest/hct-mcp-signals/commit/28651772d672e425e83062a057801e8ff2ad9cb7))
+* initial HCT-MCP Signals package ([fa9fb79](https://github.com/stefanwiest/hct-mcp-signals/commit/fa9fb79ce11222a0422a26cf1be1f3d919ce3e0d))
+* SOTA package improvements ([f5fe985](https://github.com/stefanwiest/hct-mcp-signals/commit/f5fe9858bb8227e024464420b82b6e7c614e7a57))
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
