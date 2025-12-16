@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: validate-all
+        name: Validate All Packages
+        entry: ./scripts/validate-all.sh
+        language: script
+        pass_filenames: false
+        description: "Runs validation scripts for Python, npm, Rust, and Go."
