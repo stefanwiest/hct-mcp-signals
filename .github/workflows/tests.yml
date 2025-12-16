@@ -12,6 +12,9 @@ jobs:
   # ============================================================
   python:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: python
     strategy:
       fail-fast: false
       matrix:
@@ -44,7 +47,7 @@ jobs:
         uses: codecov/codecov-action@v4
         if: matrix.python-version == '3.11'
         with:
-          files: ./coverage.xml
+          files: ./python/coverage.xml
           fail_ci_if_error: false
 
   # ============================================================
@@ -79,17 +82,71 @@ jobs:
         run: npm run lint --if-present
 
   # ============================================================
+  # Rust Tests
+  # ============================================================
+  rust:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rust
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Format check
+        run: cargo fmt --check
+
+      - name: Clippy
+        run: cargo clippy -- -D warnings
+
+      - name: Test
+        run: cargo test
+
+  # ============================================================
+  # Go Tests
+  # ============================================================
+  go:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: go
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+
+      - name: Format check
+        run: test -z $(gofmt -l .)
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Test
+        run: go test -v -race -cover ./...
+
+  # ============================================================
   # All Checks Passed
   # ============================================================
   ci-success:
-    needs: [python, npm]
+    needs: [python, npm, rust, go]
     runs-on: ubuntu-latest
     if: always()
     steps:
       - name: Check all jobs passed
         run: |
           if [[ "${{ needs.python.result }}" != "success" ]] || \
-             [[ "${{ needs.npm.result }}" != "success" ]]; then
+             [[ "${{ needs.npm.result }}" != "success" ]] || \
+             [[ "${{ needs.rust.result }}" != "success" ]] || \
+             [[ "${{ needs.go.result }}" != "success" ]]; then
             echo "One or more jobs failed"
             exit 1
           fi
