@@ -30,6 +30,8 @@ Standard MCP messages (`tasks/send`) lack the vocabulary for:
 
 Without these signals, developers build brittle, ad-hoc state machines.
 
+
+
 ## 💡 The Solution: Harmonic Coordination
 
 **HCT-MCP Signals** extends the protocol with 7 musical primitives proven to coordinate complex ensembles without a central conductor.
@@ -184,3 +186,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 <div align="center">
     <sub>Built with ❤️ by the HCT Working Group</sub>
 </div>
+
+## License
+
+[Apache License 2.0](LICENSE)

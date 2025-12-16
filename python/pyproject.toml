@@ -7,7 +7,7 @@ name = "hct-mcp-signals"
 version = "0.1.0"
 description = "HCT Coordination Signals Extension for MCP - Adds urgency, timing, and approval semantics"
 readme = "README.md"
-license = "MIT"
+license = "Apache-2.0"
 requires-python = ">=3.9"
 authors = [
     { name = "Stefan Wiest", email = "mail@stefanwiest.de" }
@@ -16,7 +16,7 @@ keywords = ["mcp", "model-context-protocol", "agents", "coordination", "hct", "m
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",

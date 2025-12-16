@@ -39,7 +39,7 @@
         "signals"
     ],
     "author": "Stefan Wiest <mail@stefanwiest.de>",
-    "license": "MIT",
+    "license": "Apache-2.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/stefanwiest/hct-mcp-signals.git"
