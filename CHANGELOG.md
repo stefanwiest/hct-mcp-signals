@@ -1,3 +1,9 @@
+## [1.1.1](https://github.com/stefanwiest/hct-mcp-signals/compare/v1.1.0...v1.1.1) (2025-12-16)
+
+### Bug Fixes
+
+* change npm scope from [@hct](https://github.com/hct) to [@hct-mcp](https://github.com/hct-mcp) (scope available) ([cf328e3](https://github.com/stefanwiest/hct-mcp-signals/commit/cf328e36456a9d74903bc5e735a00f81c0d0c7fe))
+
 ## [1.1.0](https://github.com/stefanwiest/hct-mcp-signals/compare/v1.0.0...v1.1.0) (2025-12-16)
 
 ### Features
