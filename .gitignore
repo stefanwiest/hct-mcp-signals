@@ -3,4 +3,5 @@
 rust/target/
 npm/node_modules/
 npm/dist/
+python/.venv
 
