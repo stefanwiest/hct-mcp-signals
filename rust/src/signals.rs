@@ -213,7 +213,7 @@ mod tests {
             .with_urgency(8)
             .with_tempo(Tempo::Presto)
             .with_timeout_ms(5000);
-        
+
         assert_eq!(perf.urgency, 8);
         assert_eq!(perf.tempo, Tempo::Presto);
         assert_eq!(perf.timeout_ms, Some(5000));
@@ -223,7 +223,7 @@ mod tests {
     fn test_urgency_clamping() {
         let perf = Performance::new().with_urgency(15);
         assert_eq!(perf.urgency, 10);
-        
+
         let perf = Performance::new().with_urgency(0);
         assert_eq!(perf.urgency, 1);
     }

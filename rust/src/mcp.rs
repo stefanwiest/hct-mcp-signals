@@ -60,10 +60,7 @@ impl McpTaskSend {
 /// # Errors
 ///
 /// Returns an error if the input is not a valid JSON object.
-pub fn embed_signal(
-    params_json: &str,
-    signal: &HCTSignal,
-) -> Result<String, serde_json::Error> {
+pub fn embed_signal(params_json: &str, signal: &HCTSignal) -> Result<String, serde_json::Error> {
     let mut params: serde_json::Value = serde_json::from_str(params_json)?;
     if let Some(obj) = params.as_object_mut() {
         obj.insert("hct_signal".to_string(), serde_json::to_value(signal)?);
@@ -105,7 +102,7 @@ mod tests {
     fn test_embed_signal() {
         let signal = cue("orch", ["analyst"]).build();
         let params = r#"{"id": "task-123"}"#;
-        
+
         let result = embed_signal(params, &signal).unwrap();
         assert!(result.contains("hct_signal"));
     }
@@ -114,7 +111,7 @@ mod tests {
     fn test_extract_signal() {
         let signal = cue("orch", ["analyst"]).build();
         let json = signal.to_mcp_json().unwrap();
-        
+
         let extracted = extract_signal(&json).unwrap();
         assert!(extracted.is_some());
     }

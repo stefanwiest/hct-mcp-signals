@@ -94,9 +94,11 @@ impl SignalBuilder {
 
 /// Create a CUE signal to trigger agent activation.
 #[must_use]
-pub fn cue(source: impl Into<String>, targets: impl IntoIterator<Item = impl Into<String>>) -> SignalBuilder {
-    SignalBuilder::new(SignalType::Cue, source)
-        .with_targets(targets)
+pub fn cue(
+    source: impl Into<String>,
+    targets: impl IntoIterator<Item = impl Into<String>>,
+) -> SignalBuilder {
+    SignalBuilder::new(SignalType::Cue, source).with_targets(targets)
 }
 
 /// Create a FERMATA signal to hold for approval.
@@ -113,7 +115,10 @@ pub fn fermata(source: impl Into<String>, reason: impl Into<String>) -> SignalBu
 
 /// Create an ATTACCA signal for immediate transition.
 #[must_use]
-pub fn attacca(source: impl Into<String>, targets: impl IntoIterator<Item = impl Into<String>>) -> SignalBuilder {
+pub fn attacca(
+    source: impl Into<String>,
+    targets: impl IntoIterator<Item = impl Into<String>>,
+) -> SignalBuilder {
     SignalBuilder::new(SignalType::Attacca, source)
         .with_targets(targets)
         .with_urgency(10)
@@ -190,7 +195,10 @@ mod tests {
         let signal = attacca("agent", ["next"]).build();
 
         assert_eq!(signal.performance.as_ref().map(|p| p.urgency), Some(10));
-        assert_eq!(signal.performance.as_ref().map(|p| p.tempo), Some(Tempo::Presto));
+        assert_eq!(
+            signal.performance.as_ref().map(|p| p.tempo),
+            Some(Tempo::Presto)
+        );
     }
 
     #[test]
