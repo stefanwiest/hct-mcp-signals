@@ -5,7 +5,7 @@
 Adds urgency, timing, and approval semantics to MCP-based multi-agent systems.
 
 [![PyPI](https://img.shields.io/pypi/v/hct-mcp-signals)](https://pypi.org/project/hct-mcp-signals/)
-[![npm](https://img.shields.io/npm/v/@hct/mcp-signals)](https://www.npmjs.com/package/@hct/mcp-signals)
+[![npm](https://img.shields.io/npm/v/@hct-mcp/signals)](https://www.npmjs.com/package/@hct-mcp/signals)
 [![crates.io](https://img.shields.io/crates/v/hct-mcp-signals)](https://crates.io/crates/hct-mcp-signals)
 [![Go Reference](https://pkg.go.dev/badge/github.com/stefanwiest/hct-mcp-signals/go.svg)](https://pkg.go.dev/github.com/stefanwiest/hct-mcp-signals/go)
 
@@ -26,7 +26,7 @@ This extension adds 7 coordination signals inspired by [Harmonic Coordination Th
 pip install hct-mcp-signals
 
 # npm/TypeScript
-npm install @hct/mcp-signals
+npm install @hct-mcp/signals
 
 # Rust
 cargo add hct-mcp-signals
