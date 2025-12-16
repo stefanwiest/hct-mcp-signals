@@ -14,6 +14,11 @@
 [![Go Reference](https://img.shields.io/badge/go-reference-blue?style=for-the-badge&logo=go&logoColor=white)](https://pkg.go.dev/github.com/stefanwiest/hct-mcp-signals/go)
 
 </div>
+<br/>
+
+> [!NOTE] 
+> **Status: Early Stage Public Preview**  
+> **HCT-MCP Signals** is currently in **v0.5 (Public Preview)**. The specification and implementations are functional but are still evolving. We are opening the project to foster collaboration, gather feedback, and solicit contributions. Expect changes.
 
 ---
 
@@ -134,42 +139,97 @@ let signal = cue("orch", ["analyst"])
 
 ## 🔌 Framework Integrations
 
-<details>
-<summary><strong>LangGraph (Python)</strong></summary>
+HCT Signals are framework-agnostic. Here is how they enhance various agent architectures:
 
+### LangGraph
 ```python
+from langgraph.graph import StateGraph
+from hct_mcp_signals import fermata, caesura
+
 def router(state):
-    signal = state.get("hct_signal")
-    if signal.type == "fermata":
-        return "human_node"
-    return "tools"
+    signal = state.get("hct_signal", {})
+    if signal.get("type") == "fermata":
+        return "human_review"
+    elif signal.get("type") == "caesura":
+        return "end"
+    return "continue"
 ```
-</details>
 
-<details>
-<summary><strong>CrewAI (Python)</strong></summary>
-
+### CrewAI
 ```python
-# Pass signals in task context
+from crewai import Task
+from hct_mcp_signals import cue, vamp
+
+# Embed HCT signal in task context for quality gating
 Task(
-    description="Analyze",
-    expected_output="Report",
-    context={"hct_signal": cue("manager", ["worker"]).to_mcp()}
+    description="Analyze Q4 Trends",
+    expected_output="Financial Report",
+    context={"hct_signal": vamp("verifier", "confidence >= 0.9").to_mcp()}
 )
 ```
-</details>
 
-<details>
-<summary><strong>Google ADK / GenAI</strong></summary>
-
+### AutoGen
 ```python
-# HCT signals serve as 'routing metadata' in GenAI flows
-class RoutingAgent(Agent):
-    async def route(self, msg):
-        if msg.hct_signal.is_urgent():
-            await self.fast_lane.process(msg)
+from hct_mcp_signals import downbeat
+
+# Sync point before parallel work
+sync = downbeat("coordinator", "phase_2_start")
+assistant.send({"content": "Starting phase 2", "hct_signal": sync.to_mcp()})
 ```
-</details>
+
+### Google ADK
+```python
+class CoordinatedAgent(Agent):
+    async def on_message(self, message):
+        signal = message.get("hct_signal")
+        if signal and signal["type"] == "caesura":
+            await self.emergency_shutdown(signal["payload"]["reason"])
+```
+
+### AWS Strands / Bedrock
+```python
+class StrandsCoordinatedAgent(Agent):
+    def handle_mcp_message(self, params):
+        signal = params.get("hct_signal")
+        urgency = signal.get("performance", {}).get("urgency", 5)
+        
+        if urgency >= 8:
+            return self.priority_process(params)
+        return self.normal_process(params)
+```
+
+### DSPy
+```python
+class QualityControlledModule(dspy.Module):
+    def forward(self, question):
+        # Use VAMP signal for retry logic
+        signal = vamp("dspy_module", "quality >= 0.9", quality_threshold=0.9)
+        # Emit signal to observer...
+        return self.generate(question)
+```
+
+### TensorZero
+```python
+@gateway.route
+def route_with_urgency(request):
+    signal = request.get("hct_signal", {})
+    urgency = signal.get("performance", {}).get("urgency", 5)
+    
+    if urgency >= 9:
+        return "fast_model"
+    elif signal.get("type") == "fermata":
+        return "careful_model"
+    return "default_model"
+```
+
+### Letta (MemGPT)
+```python
+class MemoryCoordinatedAgent(Agent):
+    def hibernate(self, duration_ms):
+        # Signal agent is going inactive (TACET)
+        signal = tacet(self.name, duration_ms=duration_ms)
+        self.broadcast(signal.to_mcp())
+```
 
 ---
 
@@ -179,13 +239,9 @@ The complete protocol specification is available in [RFC.md](./RFC.md).
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
+Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ---
-
-<div align="center">
-    <sub>Built with ❤️ by the HCT Working Group</sub>
-</div>
 
 ## License
 
