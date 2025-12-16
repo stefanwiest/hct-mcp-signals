@@ -1,3 +1,10 @@
+## [0.8.1](https://github.com/stefanwiest/hct-mcp-signals/compare/v0.8.0...v0.8.1) (2025-12-16)
+
+
+### Bug Fixes
+
+* add language specific READMEs ([c0d55ea](https://github.com/stefanwiest/hct-mcp-signals/commit/c0d55ea07d9a51fbfcea8ee69a0019f9fe773ef6))
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
