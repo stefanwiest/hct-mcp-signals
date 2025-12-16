@@ -32,8 +32,10 @@
 
 mod factory;
 mod mcp;
+mod schema;
 mod signals;
 
 pub use factory::{attacca, caesura, cue, downbeat, fermata, tacet, vamp, SignalBuilder};
 pub use mcp::{embed_signal, extract_signal, McpTaskSend};
+pub use schema::{get_json_schema, get_json_schema_string, get_mcp_extension_schema};
 pub use signals::{Conditions, HCTSignal, HoldType, Performance, SignalType, Tempo};
