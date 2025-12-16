@@ -1,0 +1,35 @@
+{
+    "name": "@hct/mcp-signals",
+    "version": "0.1.0",
+    "description": "HCT Coordination Signals Extension for MCP - Adds urgency, timing, and approval semantics",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "test": "jest",
+        "prepublishOnly": "npm run build"
+    },
+    "keywords": [
+        "mcp",
+        "model-context-protocol",
+        "agents",
+        "coordination",
+        "hct"
+    ],
+    "author": "Stefan Wiest <mail@stefanwiest.de>",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/stefanwiest/hct-mcp-signals.git"
+    },
+    "devDependencies": {
+        "@types/node": "^20.0.0",
+        "typescript": "^5.0.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}
