@@ -1,3 +1,13 @@
+## [1.1.0](https://github.com/stefanwiest/hct-mcp-signals/compare/v1.0.0...v1.1.0) (2025-12-16)
+
+### Features
+
+* add schema files for JSON Schema export ([46725b1](https://github.com/stefanwiest/hct-mcp-signals/commit/46725b1400b937206c1a51dc000e49c195677f71))
+
+### Refactoring
+
+* restructure Python to python/ subfolder ([9edfb8c](https://github.com/stefanwiest/hct-mcp-signals/commit/9edfb8c07fde674ccf58c6359fa77c3428a38261))
+
 ## 1.0.0 (2025-12-16)
 
 ### Features
