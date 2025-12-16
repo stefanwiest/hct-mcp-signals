@@ -119,8 +119,6 @@ func TestFromJSON(t *testing.T) {
 	assert.Equal(t, original.Source, parsed.Source)
 }
 
-
-
 func TestJSONRoundTrip(t *testing.T) {
 	original := NewCue("orchestrator", []string{"analyst", "synthesizer"},
 		WithUrgency(8),
