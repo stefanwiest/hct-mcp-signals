@@ -10,7 +10,7 @@ repository = "https://github.com/stefanwiest/hct-mcp-signals"
 homepage = "https://github.com/stefanwiest/hct-mcp-signals"
 documentation = "https://docs.rs/hct-mcp-signals"
 readme = "../README.md"
-keywords = ["mcp", "model-context-protocol", "agents", "coordination", "hct"]
+keywords = ["mcp", "llm", "agents", "coordination", "hct"]
 categories = ["development-tools", "api-bindings"]
 
 [dependencies]
