@@ -1,0 +1,37 @@
+[package]
+name = "hct-mcp-signals"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.70"
+authors = ["Stefan Wiest <mail@stefanwiest.de>"]
+description = "HCT Coordination Signals Extension for MCP - Adds urgency, timing, and approval semantics"
+license = "MIT"
+repository = "https://github.com/stefanwiest/hct-mcp-signals"
+homepage = "https://github.com/stefanwiest/hct-mcp-signals"
+documentation = "https://docs.rs/hct-mcp-signals"
+readme = "../README.md"
+keywords = ["mcp", "model-context-protocol", "agents", "coordination", "hct"]
+categories = ["development-tools", "api-bindings"]
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+thiserror = "1.0"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full", "test-util"] }
+pretty_assertions = "1.4"
+
+[features]
+default = []
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"
+nursery = "warn"
+unwrap_used = "warn"
+expect_used = "warn"
