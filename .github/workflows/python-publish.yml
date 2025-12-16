@@ -26,8 +26,11 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v2
+
       - name: Install build tools
-        run: pip install build hatch
+        run: uv pip install --system build hatch
 
       - name: Update version
         run: |
