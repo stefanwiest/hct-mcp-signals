@@ -41,3 +41,19 @@ Repository = "https://github.com/stefanwiest/hct-mcp-signals"
 
 [tool.hatch.build.targets.wheel]
 packages = ["hct_mcp_signals"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "hct_mcp_signals/**/*.py",
+    "hct_mcp_signals/py.typed",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
