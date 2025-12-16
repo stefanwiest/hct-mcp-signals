@@ -1,3 +1,12 @@
+## [1.2.3](https://github.com/stefanwiest/hct-mcp-signals/compare/v1.2.2...v1.2.3) (2025-12-16)
+
+
+### Bug Fixes
+
+* build and verification issues ([95a2274](https://github.com/stefanwiest/hct-mcp-signals/commit/95a22749ffa7a8c080776208e8fe5bd42c91f3d3))
+* **ci:** resolve rust clippy errors, go test duplication, and update lockfiles ([47635f1](https://github.com/stefanwiest/hct-mcp-signals/commit/47635f1ff1116dcd751199057f6d51867846f36f))
+* **pkg:** finalize python package and fixes ([602d06f](https://github.com/stefanwiest/hct-mcp-signals/commit/602d06fe59b00da5ad5654697a6330a3ddbe6a47))
+
 # [1.2.0](https://github.com/stefanwiest/hct-mcp-signals/compare/v1.1.1...v1.2.0) (2025-12-16)
 
 
