@@ -1,3 +1,21 @@
+# [1.2.0](https://github.com/stefanwiest/hct-mcp-signals/compare/v1.1.1...v1.2.0) (2025-12-16)
+
+
+### Bug Fixes
+
+* add lock files and update workflow for publishing ([49a6125](https://github.com/stefanwiest/hct-mcp-signals/commit/49a6125ca934417f73f66a07e701b6b71e816305))
+* configure semantic-release to skip npm publish ([0973968](https://github.com/stefanwiest/hct-mcp-signals/commit/097396816807a96d157a026acdd93840d7194ead))
+* ensure package publishing works ([5ce1b42](https://github.com/stefanwiest/hct-mcp-signals/commit/5ce1b42d3fe6cdb5bd26170d4574f46e350cec08))
+* re-trigger release after tag cleanup ([f1f7bae](https://github.com/stefanwiest/hct-mcp-signals/commit/f1f7baee9c697487c4051d4770a2e533b9ed9ab6))
+* remove redundant publish workflows ([74434ab](https://github.com/stefanwiest/hct-mcp-signals/commit/74434ab5293e186bffa7df276f3ba1b77e769e1e))
+* trigger release with all secrets configured ([d542f78](https://github.com/stefanwiest/hct-mcp-signals/commit/d542f7804468a0154827348ecb1c7d2cc658c4c8))
+* use semantic-release-action for proper output capture ([dc81665](https://github.com/stefanwiest/hct-mcp-signals/commit/dc8166502b71ea2edbb5d78300cb671b4e6feac6))
+
+
+### Features
+
+* publish all packages to registries ([9370778](https://github.com/stefanwiest/hct-mcp-signals/commit/937077861ac3cf0f31f75ee3b5da8dfa726a5e10))
+
 ## [1.2.0](https://github.com/stefanwiest/hct-mcp-signals/compare/v1.1.1...v1.2.0) (2025-12-16)
 
 ### Features
