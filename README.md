@@ -18,7 +18,7 @@
 
 > [!NOTE] 
 > **Status: Early Stage Public Preview**  
-> **HCT-MCP Signals** is currently in **v0.5 (Public Preview)**. The specification and implementations are functional but are still evolving. We are opening the project to foster collaboration, gather feedback, and solicit contributions. Expect changes.
+> **HCT-MCP Signals** is currently in **Public Preview**. The specification and implementations are functional but are still evolving. We are opening the project to foster collaboration, gather feedback, and solicit contributions. Expect changes.
 
 ---
 

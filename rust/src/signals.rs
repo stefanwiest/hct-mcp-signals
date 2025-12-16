@@ -57,7 +57,7 @@ pub enum HoldType {
 }
 
 /// Performance parameters (Layer 3 in HCT).
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Performance {
     /// Urgency level 1-10
     #[serde(default = "default_urgency")]
@@ -70,7 +70,17 @@ pub struct Performance {
     pub timeout_ms: Option<u64>,
 }
 
-fn default_urgency() -> u8 {
+impl Default for Performance {
+    fn default() -> Self {
+        Self {
+            urgency: default_urgency(),
+            tempo: Tempo::default(),
+            timeout_ms: None,
+        }
+    }
+}
+
+const fn default_urgency() -> u8 {
     5
 }
 
@@ -90,14 +100,14 @@ impl Performance {
 
     /// Set tempo.
     #[must_use]
-    pub fn with_tempo(mut self, tempo: Tempo) -> Self {
+    pub const fn with_tempo(mut self, tempo: Tempo) -> Self {
         self.tempo = tempo;
         self
     }
 
     /// Set timeout.
     #[must_use]
-    pub fn with_timeout_ms(mut self, timeout_ms: u64) -> Self {
+    pub const fn with_timeout_ms(mut self, timeout_ms: u64) -> Self {
         self.timeout_ms = Some(timeout_ms);
         self
     }
@@ -170,7 +180,7 @@ impl HCTSignal {
     ///
     /// # Errors
     ///
-    /// Returns an error if the JSON is invalid or missing hct_signal field.
+    /// Returns an error if the JSON is invalid or missing `hct_signal` field.
     pub fn from_mcp_json(json: &str) -> Result<Self, serde_json::Error> {
         #[derive(Deserialize)]
         struct Wrapper {

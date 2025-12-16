@@ -3,10 +3,11 @@
 //! Provides JSON Schema (Draft 2020-12) for HCT signals,
 //! enabling validation in non-Rust systems.
 
+#[allow(unused_imports)]
 use crate::signals::{HCTSignal, HoldType, Performance, SignalType, Tempo};
 use serde_json::json;
 
-/// Get the JSON Schema for HCTSignal as a serde_json::Value.
+/// Get the JSON Schema for `HCTSignal` as a `serde_json::Value`.
 #[must_use]
 pub fn get_json_schema() -> serde_json::Value {
     json!({

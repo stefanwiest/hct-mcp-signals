@@ -58,14 +58,14 @@ impl SignalBuilder {
 
     /// Set tempo.
     #[must_use]
-    pub fn with_tempo(mut self, tempo: Tempo) -> Self {
+    pub const fn with_tempo(mut self, tempo: Tempo) -> Self {
         self.performance.tempo = tempo;
         self
     }
 
     /// Set timeout.
     #[must_use]
-    pub fn with_timeout_ms(mut self, timeout_ms: u64) -> Self {
+    pub const fn with_timeout_ms(mut self, timeout_ms: u64) -> Self {
         self.performance.timeout_ms = Some(timeout_ms);
         self
     }

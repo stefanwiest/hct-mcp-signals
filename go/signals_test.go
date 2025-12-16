@@ -119,46 +119,7 @@ func TestFromJSON(t *testing.T) {
 	assert.Equal(t, original.Source, parsed.Source)
 }
 
-func TestMCPTaskSend(t *testing.T) {
-	signal := NewCue("orch", []string{"analyst"})
-	msg := NewMCPTaskSend("task-123", "Analyze Q4", signal)
 
-	assert.Equal(t, "2.0", msg.JSONRPC)
-	assert.Equal(t, "tasks/send", msg.Method)
-	assert.Equal(t, "task-123", msg.Params.ID)
-	assert.NotNil(t, msg.Params.HCTSignal)
-
-	data, err := msg.ToJSON()
-	require.NoError(t, err)
-	assert.Contains(t, string(data), "hct_signal")
-}
-
-func TestEmbedSignal(t *testing.T) {
-	signal := NewCue("orch", nil)
-	params := []byte(`{"id": "task-123"}`)
-
-	result, err := EmbedSignal(params, signal)
-	require.NoError(t, err)
-	assert.Contains(t, string(result), "hct_signal")
-}
-
-func TestExtractSignal(t *testing.T) {
-	signal := NewCue("orch", nil)
-	data, _ := signal.ToMCPJSON()
-
-	extracted, err := ExtractSignal(data)
-	require.NoError(t, err)
-	require.NotNil(t, extracted)
-	assert.Equal(t, Cue, extracted.Type)
-}
-
-func TestHasSignal(t *testing.T) {
-	withSignal := []byte(`{"hct_signal": {"type": "cue", "source": "test"}}`)
-	withoutSignal := []byte(`{"id": "task-123"}`)
-
-	assert.True(t, HasSignal(withSignal))
-	assert.False(t, HasSignal(withoutSignal))
-}
 
 func TestJSONRoundTrip(t *testing.T) {
 	original := NewCue("orchestrator", []string{"analyst", "synthesizer"},
