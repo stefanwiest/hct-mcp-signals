@@ -60,7 +60,7 @@ include = [
     "hct_mcp_signals/py.typed",
     "LICENSE",
     "README.md",
-    "CHANGELOG.md",
+
 ]
 
 # ============================================================================

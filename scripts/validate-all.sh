@@ -8,18 +8,15 @@ echo "🔍 Validating all packages..."
 # ----------------------------------------------------------------------------
 echo "🐍 Checking Python..."
 cd python
-# Ensure README/LICENSE are present for build check
-cp ../README.md ../LICENSE ../CHANGELOG.md . || true
 
-# Use uv for faster environment management
-# Assumes uv is installed (e.g., via brew or script)
-echo "  Using uv for dependency check..."
-uv pip install -e ".[dev]" --system > /dev/null 2>&1 || pip install -e ".[dev]" > /dev/null
 
-ruff check .
-black --check .
-mypy hct_mcp_signals/
-pytest
+# Use uv for execution (manages ephemeral venv)
+echo "  Using uv run..."
+
+uv run --extra dev ruff check .
+uv run --extra dev black --check .
+uv run --extra dev mypy hct_mcp_signals/
+uv run --extra dev pytest
 cd ..
 
 # ----------------------------------------------------------------------------

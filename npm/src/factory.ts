@@ -9,8 +9,6 @@ import {
     SignalType,
     Tempo,
     HoldType,
-    Performance,
-    Conditions,
 } from './types';
 
 /** Options for creating a CUE signal */

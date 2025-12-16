@@ -18,9 +18,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Copy root files
-        run: cp ../README.md ../LICENSE ../CHANGELOG.md .
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
