@@ -5,10 +5,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: write
-  issues: write
-  pull-requests: write
-  id-token: write # For PyPI OIDC
+  contents: read
 
 jobs:
   # ============================================================
@@ -16,6 +13,10 @@ jobs:
   # ============================================================
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     outputs:
       new_release_published: ${{ steps.semantic.outputs.new_release_published }}
       new_release_version: ${{ steps.semantic.outputs.new_release_version }}
@@ -54,6 +55,9 @@ jobs:
     needs: release
     if: needs.release.outputs.new_release_published == 'true'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # For PyPI OIDC
     defaults:
       run:
         working-directory: python
@@ -153,6 +157,8 @@ jobs:
     needs: release
     if: needs.release.outputs.new_release_published == 'true'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
