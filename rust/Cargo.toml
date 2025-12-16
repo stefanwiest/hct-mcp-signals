@@ -9,7 +9,7 @@ license = "Apache-2.0"
 repository = "https://github.com/stefanwiest/hct-mcp-signals"
 homepage = "https://github.com/stefanwiest/hct-mcp-signals"
 documentation = "https://docs.rs/hct-mcp-signals"
-readme = "../README.md"
+readme = "README.md"
 keywords = ["mcp", "llm", "agents", "coordination", "hct"]
 categories = ["development-tools", "api-bindings"]
 

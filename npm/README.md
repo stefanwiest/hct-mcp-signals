@@ -1,4 +1,4 @@
-# HCT-MCP Signals (Python)
+# HCT-MCP Signals (TypeScript/Node.js)
 
 <div align="center">
 
@@ -6,7 +6,7 @@
 
 **Express Urgency, Timing, and Synchronization in Multi-Agent Systems.**
 
-[![PyPI](https://img.shields.io/pypi/v/hct-mcp-signals?style=for-the-badge&logo=pypi&logoColor=white)](https://pypi.org/project/hct-mcp-signals/)
+[![npm](https://img.shields.io/npm/v/@hct-mcp/signals?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/@hct-mcp/signals)
 
 </div>
 
@@ -29,23 +29,25 @@
 ## 📦 Installation
 
 ```bash
-pip install hct-mcp-signals
+npm install @hct-mcp/signals
 ```
 
 ## 🚀 Quick Start
 
-```python
-from hct_mcp_signals import cue, fermata
+```typescript
+import { cue, Tempo, embedSignal } from '@hct-mcp/signals';
 
-# 1. Create a CUE signal (High Urgency)
-signal = cue("orchestrator", ["analyst"], urgency=9, tempo="presto")
+// 1. Create a CUE signal
+const signal = cue({
+    source: 'orch',
+    targets: ['analyst'],
+    urgency: 9,
+    tempo: Tempo.PRESTO
+});
 
-# 2. Convert to MCP format
-mcp_data = signal.to_mcp()
-# Result: { "hct_signal": { "type": "cue", "source": "orch", ... } }
-
-# 3. Create a FERMATA signal (Hold for Human)
-hold = fermata("analyst", "Ambiguous Data", hold_type="human")
+// 2. Embed into MCP Tool Call Params
+let params = { id: 'task-123' };
+const paramsWithSignal = embedSignal(params, signal);
 ```
 
 ## 🔗 Links

@@ -1,4 +1,4 @@
-# HCT-MCP Signals (Python)
+# HCT-MCP Signals (Go)
 
 <div align="center">
 
@@ -6,7 +6,7 @@
 
 **Express Urgency, Timing, and Synchronization in Multi-Agent Systems.**
 
-[![PyPI](https://img.shields.io/pypi/v/hct-mcp-signals?style=for-the-badge&logo=pypi&logoColor=white)](https://pypi.org/project/hct-mcp-signals/)
+[![Go Reference](https://img.shields.io/badge/go-reference-blue?style=for-the-badge&logo=go&logoColor=white)](https://pkg.go.dev/github.com/stefanwiest/hct-mcp-signals/go)
 
 </div>
 
@@ -29,23 +29,30 @@
 ## 📦 Installation
 
 ```bash
-pip install hct-mcp-signals
+go get github.com/stefanwiest/hct-mcp-signals/go
 ```
 
 ## 🚀 Quick Start
 
-```python
-from hct_mcp_signals import cue, fermata
+```go
+package main
 
-# 1. Create a CUE signal (High Urgency)
-signal = cue("orchestrator", ["analyst"], urgency=9, tempo="presto")
+import (
+	"fmt"
+	hct "github.com/stefanwiest/hct-mcp-signals/go"
+)
 
-# 2. Convert to MCP format
-mcp_data = signal.to_mcp()
-# Result: { "hct_signal": { "type": "cue", "source": "orch", ... } }
+func main() {
+	// 1. Create a CUE signal
+	signal := hct.NewCue("orch", []string{"analyst"},
+		hct.WithUrgency(9),
+		hct.WithTempo(hct.Presto),
+	)
 
-# 3. Create a FERMATA signal (Hold for Human)
-hold = fermata("analyst", "Ambiguous Data", hold_type="human")
+	// 2. Convert to MCP JSON
+	json, _ := signal.ToMCPJSON()
+	fmt.Println(string(json))
+}
 ```
 
 ## 🔗 Links

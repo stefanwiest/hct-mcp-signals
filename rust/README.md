@@ -1,4 +1,4 @@
-# HCT-MCP Signals (Python)
+# HCT-MCP Signals (Rust)
 
 <div align="center">
 
@@ -6,7 +6,7 @@
 
 **Express Urgency, Timing, and Synchronization in Multi-Agent Systems.**
 
-[![PyPI](https://img.shields.io/pypi/v/hct-mcp-signals?style=for-the-badge&logo=pypi&logoColor=white)](https://pypi.org/project/hct-mcp-signals/)
+[![crates.io](https://img.shields.io/crates/v/hct-mcp-signals?style=for-the-badge&logo=rust&logoColor=white)](https://crates.io/crates/hct-mcp-signals)
 
 </div>
 
@@ -29,23 +29,25 @@
 ## 📦 Installation
 
 ```bash
-pip install hct-mcp-signals
+cargo add hct-mcp-signals
 ```
 
 ## 🚀 Quick Start
 
-```python
-from hct_mcp_signals import cue, fermata
+```rust
+use hct_mcp_signals::{cue, Tempo};
 
-# 1. Create a CUE signal (High Urgency)
-signal = cue("orchestrator", ["analyst"], urgency=9, tempo="presto")
+fn main() {
+    // 1. Create a CUE signal using Builder pattern
+    let signal = cue("orch", ["analyst"])
+        .with_urgency(9)
+        .with_tempo(Tempo::Presto)
+        .build();
 
-# 2. Convert to MCP format
-mcp_data = signal.to_mcp()
-# Result: { "hct_signal": { "type": "cue", "source": "orch", ... } }
-
-# 3. Create a FERMATA signal (Hold for Human)
-hold = fermata("analyst", "Ambiguous Data", hold_type="human")
+    // 2. Convert to MCP JSON
+    let json = signal.to_mcp_json().unwrap();
+    println!("{}", json);
+}
 ```
 
 ## 🔗 Links
