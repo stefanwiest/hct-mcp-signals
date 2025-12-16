@@ -1,6 +1,6 @@
 {
     "name": "@hct-mcp/signals",
-    "version": "1.0.0",
+    "version": "0.8.0",
     "description": "HCT Coordination Signals Extension for MCP - Adds urgency, timing, and approval semantics",
     "main": "dist/index.js",
     "module": "dist/index.mjs",
