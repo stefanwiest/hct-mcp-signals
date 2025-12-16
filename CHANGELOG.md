@@ -1,0 +1,41 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Added
+- Planning Rust and Go package implementations
+
+## [0.1.0] - 2025-12-16
+
+### Added
+- Initial release
+- Python package (`hct-mcp-signals`)
+  - 7 HCT signal types: cue, fermata, attacca, vamp, caesura, tacet, downbeat
+  - Pydantic models with validation
+  - MCP integration utilities (embed/extract)
+  - JSON Schema export for non-Python validation
+  - Comprehensive pytest test suite
+  - Type annotations (PEP 561 compliant)
+- npm package (`@hct/mcp-signals`)
+  - TypeScript types and interfaces
+  - Factory functions for all signals
+  - MCP message builders
+  - Jest test suite
+  - ESM and CommonJS builds
+- RFC document (`RFC.md`)
+- CI/CD pipelines
+  - Tests on Python 3.9-3.12 and Node.js 20
+  - Auto-publish to PyPI and npm on version tags
+
+### Technical
+- Tooling: black, ruff, mypy, pre-commit
+- 100% type coverage
+- JSON Schema Draft 2020-12 compliance
+
+[Unreleased]: https://github.com/stefanwiest/hct-mcp-signals/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/stefanwiest/hct-mcp-signals/releases/tag/v0.1.0
