@@ -1,15 +1,21 @@
 # RFC: HCT Coordination Signals for MCP
 
-**Status**: Draft  
+**Status**: Public Preview  
 **Author**: Stefan Wiest  
 **Created**: 2025-12-16  
 **Target**: AAIF/MCP Working Group
+
+**Implementations**:
+- 🐍 **Python**: [`hct-mcp-signals`](https://pypi.org/project/hct-mcp-signals/)
+- 📦 **Node.js**: [`@hct-mcp/signals`](https://www.npmjs.com/package/@hct-mcp/signals)
+- 🦀 **Rust**: [`hct-mcp-signals`](https://crates.io/crates/hct-mcp-signals)
+- 🐹 **Go**: [`github.com/stefanwiest/hct-mcp-signals/go`](https://pkg.go.dev/github.com/stefanwiest/hct-mcp-signals/go)
 
 ---
 
 ## Abstract
 
-This RFC proposes extending the Model Context Protocol (MCP) with **coordination semantics** derived from Harmonic Coordination Theory (HCT). While MCP excels at tool/resource connections, it lacks vocabulary for expressing urgency, timing, approval gates, and synchronization—concepts essential for robust multi-agent coordination.
+This RFC proposes extending the Model Context Protocol (MCP) with **coordination semantics** derived from Harmonic Coordination Theory (HCT). While MCP excels at tool/resource connections, it lacks standard vocabulary for expressing urgency, resource intensity, approval gates, and synchronization—concepts essential for robust, scalable multi-agent coordination.
 
 ---
 
@@ -17,31 +23,55 @@ This RFC proposes extending the Model Context Protocol (MCP) with **coordination
 
 MCP provides `tasks/send` and `tasks/sendSubscribe` for task dispatch, but offers no standard way to express:
 
-1. **Urgency/Priority**: "Process this immediately" vs "batch for later"
-2. **Timing Requirements**: Expected response time, deadline awareness
-3. **Approval Gates**: "Hold until human approves"
-4. **Synchronization**: "Wait for all agents before proceeding"
-5. **Quality Thresholds**: "Repeat until quality score > 0.9"
+1.  **Urgency/Priority**: "Process this immediately" vs "batch for later"
+2.  **Resource Intensity (Dynamics)**: "Use cheap/fast model" vs "Use expensive Chain-of-Thought"
+3.  **Approval Gates**: "Hold until human approves"
+4.  **Synchronization**: "Wait for all agents before proceeding"
+5.  **Quality Thresholds**: "Repeat until quality score > 0.9"
 
-Without these semantics, agents must implement ad-hoc coordination, leading to fragmented, non-interoperable systems.
+Without these semantics, agents must implement ad-hoc coordination logic in prompts or side-channels, leading to fragmented, non-interoperable systems.
 
 ---
 
 ## Proposal: HCT Signal Extension
 
-We propose 7 coordination signals as an optional MCP extension, inspired by musical ensemble coordination:
+We propose 7 coordination signals as an optional MCP extension (`hct_signal`), inspired by musical ensemble coordination but strictly defined for computational utility.
 
 ### Signal Definitions
 
-| Signal | MCP Method | Semantics | Use Case |
-|--------|------------|-----------|----------|
-| `cue` | `tasks/send` | Trigger agent activation | Handoff, task dispatch |
-| `fermata` | `tasks/sendSubscribe` | Hold for approval | Human-in-loop gates |
-| `attacca` | `tasks/send` | Immediate transition | Urgent handoffs |
-| `vamp` | `tasks/sendSubscribe` | Repeat until condition | Retry loops, polling |
-| `caesura` | `tasks/cancel` | Full stop | Emergency shutdown |
-| `tacet` | N/A | Agent inactive | Resource conservation |
-| `downbeat` | `notifications/message` | Global sync point | Coordination checkpoints |
+| Signal | MCP Method | Semantics | Computational Utility |
+|--------|------------|-----------|-----------------------|
+| `cue` | `tasks/send` | Trigger agent activation | Standard task dispatch / Handoff |
+| `fermata` | `tasks/sendSubscribe` | Hold for approval | Human-in-the-loop / Governance Gates |
+| `attacca` | `tasks/send` | Immediate transition | Low-latency / Real-time handoff |
+| `vamp` | `tasks/sendSubscribe` | Repeat until condition | Polling / Retry loops / Quality Gates |
+| `caesura` | `tasks/cancel` | Full stop | Emergency shutdown / Circuit Breaker |
+| `tacet` | N/A | Agent inactive | Resource conservation / Sleep |
+| `downbeat` | `notifications/message` | Global sync point | Barrier synchronization |
+
+### Performance Parameters (Metadata)
+
+HCT signals carry "Performance" metadata that dictates *how* the task should be executed.
+
+#### Dynamics: Resource Intensity Control
+Musical dynamics mapped to **Token/Compute Budget**.
+
+| Marking | Level | Resource Multiplier | Use Case |
+|:---:|---|:---:|---|
+| **pp** | Pianissimo | < 0.5x | **Cache/Lookup**: Use cheapest model, no reflection, retrieval only. |
+| **p** | Piano | 0.8x | **Efficient**: Standard model, zero-shot. |
+| **mf** | Mezzo-Forte | 1.0x | **Standard**: Recommended model, standard prompt chain. |
+| **f** | Forte | 1.5x | **Deep**: Models with reasoning (e.g., o1), multi-shot. |
+| **ff** | Fortissimo | > 2.0x | **Maximum Depth**: Ensemble voting, extensive Chain-of-Thought. |
+
+#### Tempo: Execution Urgency
+Musical tempo mapped to **Latency/Priority**.
+
+| Marking | Level | Priority | Use Case |
+|:---:|---|:---:|---|
+| **Largo** | Slow | Batch/Low | Background tasks, deep analysis (no deadline). |
+| **Moderato** | Moderate | Normal | Standard interactive tasks. |
+| **Presto** | Fast | Real-time | Latency-critical flows, user-facing voice/chat. |
 
 ### JSON Schema Extension
 
@@ -63,8 +93,23 @@ We propose 7 coordination signals as an optional MCP extension, inspired by musi
           "properties": {
             "urgency": {"type": "integer", "minimum": 1, "maximum": 10},
             "tempo": {"type": "string", "enum": ["largo", "andante", "moderato", "allegro", "presto"]},
+            "dynamics": {
+                "type": "string",
+                "enum": ["pp", "p", "mp", "mf", "f", "ff"],
+                "description": "Resource intensity: pp=minimal (<0.5x), mf=standard (1.0x), ff=high depth (>1.5x)"
+            },
             "timeout_ms": {"type": "integer"}
           }
+        },
+        "context": {
+            "type": "object",
+            "description": "Transport context for maintained state across handoffs",
+            "properties": {
+                "movement": { "type": "string" },
+                "objectives": { "type": "array", "items": { "type": "string" } },
+                "reference_frame": { "type": "object" },
+                "prior_outputs": { "type": "array" }
+            }
         },
         "conditions": {
           "type": "object",
@@ -81,7 +126,7 @@ We propose 7 coordination signals as an optional MCP extension, inspired by musi
 }
 ```
 
-### Example: CUE with Urgency
+### Example: CUE with High Resource Intensity (ff)
 
 ```json
 {
@@ -91,14 +136,18 @@ We propose 7 coordination signals as an optional MCP extension, inspired by musi
     "id": "task-123",
     "message": {
       "role": "user",
-      "content": "Analyze Q4 revenue"
+      "content": "Analyze Q4 revenue anomalies"
     },
     "hct_signal": {
       "type": "cue",
       "performance": {
         "urgency": 8,
         "tempo": "allegro",
-        "timeout_ms": 30000
+        "dynamics": "ff"
+      },
+      "context": {
+          "movement": "financial_analysis",
+          "objectives": ["identify_root_cause"]
       }
     }
   }
@@ -130,65 +179,40 @@ We propose 7 coordination signals as an optional MCP extension, inspired by musi
 
 ---
 
+## Common Patterns
+
+HCT signals enable standardized implementation of common multi-agent design patterns. See the `hct-patterns` repository for full documentation.
+
+### Human-in-the-Loop (Fermata)
+When an agent requires external input or authorization, it emits a `FERMATA`. This explicitly signals a pause in the workflow until a resolution (Downbeat) is provided.
+- **A2A Map**: `tasks/sendSubscribe`
+- **Signal**: `type="fermata"`, `reason="..."`
+
+### Status Streaming (Ostinato)
+Long-running agents emit periodic low-priority `CUE` signals to indicate liveness and progress.
+- **A2A Map**: Repeating `tasks/send` or stream chunks
+- **Signal**: `type="cue"`, `performance.dynamics="pp"`
+
 ## Compatibility
 
-- **Backward Compatible**: The `hct_signal` field is optional; existing MCP clients/servers ignore it
-- **Graceful Degradation**: Servers that don't support HCT signals process the base message normally
-- **Discovery**: Servers can advertise HCT support via `capabilities.hct_signals: true`
-
----
-
-## Reference Implementation
-
-Available at: https://github.com/stefanwiest/hct-core
-
-```python
-from hct.coordination import cue, fermata
-from hct.mcp import HCTSignalClient
-
-async with HCTSignalClient() as client:
-    # Send CUE with urgency
-    await client.emit(
-        signal_type="cue",
-        source="orchestrator",
-        targets=["analyst"],
-        payload={"task": "Analyze Q4"},
-        performance={"urgency": 8, "tempo": "allegro"}
-    )
-    
-    # Create FERMATA hold
-    await client.emit(
-        signal_type="fermata",
-        source="synthesizer",
-        targets=["human"],
-        payload={"reason": "Report requires approval"}
-    )
-```
+- **Backward Compatible**: The `hct_signal` field is optional; existing MCP clients/servers ignore it.
+- **Graceful Degradation**: Servers that don't support HCT signals process the base message normally.
+- **Discovery**: Servers can advertise HCT support via `capabilities.hct_signals: true`.
 
 ---
 
 ## Rationale
 
-### Why Musical Metaphors?
+### Why Musical Metaphors? (Hybrid Coordination)
 
-Music represents humanity's most sophisticated solution to distributed coordination:
-- **Orchestras** coordinate 100+ musicians without centralized state
-- **Jazz ensembles** adapt in real-time to unexpected inputs
-- **Chamber groups** self-organize without conductors
-
-HCT borrows vocabulary proven over centuries of ensemble practice.
+As AI agents move from pilot to production, teams become **hybrid ensembles** of humans and agents. Music provides a centuries-proven vocabulary for:
+1.  **Distributed Sync**: Getting 100+ actors to align without centralized locking (`downbeat`).
+2.  **Shared Semantics**: Humans intuitively understand "CUE" (start) and "FERMATA" (hold/pause), bridging the gap between technical protocols and human workflow.
+3.  **Nuance**: "Dynamics" allows expressing the *quality* of effort (quick sketch vs. masterpiece) in a way that rigid "sim/med/hard" flags do not capture.
 
 ### Why Extend MCP?
 
-MCP is rapidly becoming the standard for agent-tool connections. By extending MCP rather than creating a competing protocol, HCT signals can be adopted incrementally without requiring ecosystem changes.
-
----
-
-## Next Steps
-
-1. Community feedback on signal definitions
-2. Implementation in major MCP libraries (Python, TypeScript)
-3. Integration with A2A protocol for end-to-end coordination
+MCP is establishing the standard transport layer for tools. By layering coordination semantics *on top of* MCP, we avoid protocol fragmentation and allow coordination patterns to ride on existing infrastructure.
 
 ---
 
@@ -196,4 +220,3 @@ MCP is rapidly becoming the standard for agent-tool connections. By extending MC
 
 - [MCP Specification](https://spec.modelcontextprotocol.io/)
 - [HCT Paper](https://github.com/stefanwiest/hct-paper)
-- [A2A Protocol](https://github.com/google/A2A)
