@@ -257,7 +257,7 @@ If you use HCT-MCP Signals in your research or project, please cite:
 }
 ```
 
-For the underlying theory, see the [HCT Paper](https://stefanwiest.de/research/papers/hct-theory/).
+For the underlying theory, see the [HCT Paper](https://stefanwiest.de/research/papers/harmonic-coordination-theory/).
 
 ---
 
