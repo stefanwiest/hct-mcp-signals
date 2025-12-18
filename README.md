@@ -243,6 +243,25 @@ Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ---
 
+## 📄 Citation
+
+If you use HCT-MCP Signals in your research or project, please cite:
+
+```bibtex
+@software{wiest2025hctsignals,
+  title = {HCT-MCP Signals: The Coordination Layer for Model Context Protocol},
+  author = {Wiest, Stefan},
+  year = {2025},
+  url = {https://github.com/stefanwiest/hct-mcp-signals},
+  version = {0.8.0}
+}
+```
+
+For the underlying theory, see the [HCT Paper](https://stefanwiest.de/research/papers/hct-theory/).
+
+---
+
 ## License
 
 [Apache License 2.0](LICENSE)
+
