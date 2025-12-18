@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/stefanwiest/hct-spec/schema.json",
+  "title": "HCT Signal Schema",
+  "description": "JSON Schema for HCT coordination signals. Generated 2025-12-18T09:18:41.153567Z",
+  "type": "object",
+  "properties": {
+    "hct_signal": {
+      "type": "object",
+      "required": [
+        "type",
+        "source"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "cue",
+            "fermata",
+            "attacca",
+            "vamp",
+            "caesura",
+            "tacet",
+            "downbeat"
+          ]
+        },
+        "source": {
+          "type": "string"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "performance": {
+          "type": "object",
+          "properties": {
+            "tempo": {
+              "type": "string",
+              "enum": [
+                "largo",
+                "andante",
+                "moderato",
+                "allegro",
+                "presto"
+              ]
+            },
+            "dynamics": {
+              "type": "string",
+              "enum": [
+                "pp",
+                "p",
+                "mf",
+                "f",
+                "ff"
+              ]
+            },
+            "urgency": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10
+            },
+            "timeout_ms": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "conditions": {
+          "type": "object",
+          "properties": {
+            "hold_type": {
+              "type": "string",
+              "enum": [
+                "human",
+                "governance",
+                "resource",
+                "quality"
+              ]
+            },
+            "quality_threshold": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "repeat_until": {
+              "type": "string"
+            }
+          }
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "movement": {
+              "type": "string"
+            },
+            "objectives": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}
