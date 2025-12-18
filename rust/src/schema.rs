@@ -4,7 +4,9 @@
 //! enabling validation in non-Rust systems.
 
 #[allow(unused_imports)]
-use crate::signals::{HCTSignal, HoldType, Performance, SignalType, Tempo};
+use crate::signals::{HCTSignal, HoldType, Performance};
+#[allow(unused_imports)]
+use crate::spec::{SignalType, Tempo};
 use serde_json::json;
 
 /// Get the JSON Schema for `HCTSignal` as a `serde_json::Value`.

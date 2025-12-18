@@ -1,6 +1,6 @@
 """
 HCT Signal Types - Auto-generated from hct-spec/spec.yaml
-Generated: 2025-12-18T09:18:41.154121Z
+Generated: 2025-12-18T10:37:34.791657Z
 
 DO NOT EDIT MANUALLY - Edit spec.yaml and regenerate.
 """
@@ -35,11 +35,3 @@ class DynamicsLevel(str, Enum):
     MF = "mf"  # mezzo-forte
     F = "f"  # forte
     FF = "ff"  # fortissimo
-
-
-class HoldType(str, Enum):
-    """Types of holds for FERMATA signals."""
-    HUMAN = "human"
-    GOVERNANCE = "governance"
-    RESOURCE = "resource"
-    QUALITY = "quality"

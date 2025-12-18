@@ -1,8 +1,6 @@
 # RFC: HCT Coordination Signals for MCP
 
 **Status**: Public Preview  
-**Author**: Stefan Wiest  
-**Created**: 2025-12-16  
 **Target**: AAIF/MCP Working Group
 
 **Implementations**:
@@ -95,7 +93,7 @@ Musical tempo mapped to **Latency/Priority**.
             "tempo": {"type": "string", "enum": ["largo", "andante", "moderato", "allegro", "presto"]},
             "dynamics": {
                 "type": "string",
-                "enum": ["pp", "p", "mp", "mf", "f", "ff"],
+                "enum": ["pp", "p", "mf", "f", "ff"],
                 "description": "Resource intensity: pp=minimal (<0.5x), mf=standard (1.0x), ff=high depth (>1.5x)"
             },
             "timeout_ms": {"type": "integer"}
@@ -103,7 +101,7 @@ Musical tempo mapped to **Latency/Priority**.
         },
         "context": {
             "type": "object",
-            "description": "Transport context for maintained state across handoffs",
+            "description": "Optional: Transport context for maintained state (typically managed by hct-core)",
             "properties": {
                 "movement": { "type": "string" },
                 "objectives": { "type": "array", "items": { "type": "string" } },

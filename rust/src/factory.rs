@@ -1,6 +1,7 @@
 //! Factory functions for creating HCT signals with builder pattern.
 
-use crate::signals::{Conditions, HCTSignal, HoldType, Performance, SignalType, Tempo};
+use crate::signals::{Conditions, HCTSignal, HoldType, Performance};
+use crate::spec::{SignalType, Tempo};
 use chrono::Utc;
 use std::collections::HashMap;
 

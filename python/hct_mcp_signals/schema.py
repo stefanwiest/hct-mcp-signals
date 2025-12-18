@@ -3,72 +3,36 @@ HCT-MCP Signal Schema Definitions
 
 Pydantic models for HCT coordination signals.
 
-NOTE: These definitions are derived from the canonical specification at:
-      https://github.com/stefanwiest/genesis/tree/main/hct-spec/spec.yaml
+Protocol types (SignalType, Tempo, DynamicsLevel) are imported from spec.py,
+which is auto-generated from hct-spec/spec.yaml.
+
+Implementation types (HoldType, Performance, Conditions, HCTSignal) are
+defined here as they are specific to the MCP extension implementation.
 """
 
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
 from pydantic import BaseModel, Field
 
-
-class SignalType(str, Enum):
-    """HCT coordination signal types."""
-
-    CUE = "cue"  # Trigger agent activation
-    FERMATA = "fermata"  # Hold for approval
-    ATTACCA = "attacca"  # Immediate transition
-    VAMP = "vamp"  # Repeat until condition
-    CAESURA = "caesura"  # Full stop
-    TACET = "tacet"  # Agent inactive
-    DOWNBEAT = "downbeat"  # Global sync point
-
-
-class Tempo(str, Enum):
-    """Musical tempo indications for urgency mapping."""
-
-    LARGO = "largo"  # Very slow (~1 min response OK)
-    ANDANTE = "andante"  # Walking pace (~30s response)
-    MODERATO = "moderato"  # Moderate (~15s response)
-    ALLEGRO = "allegro"  # Fast (~5s response)
-    PRESTO = "presto"  # Very fast (~1s response)
-
-
-class DynamicsLevel(str, Enum):
-    """Resource intensity dynamic levels."""
-
-    PP = "pp"  # Pianissimo - Low cost/cache ops (<0.5x budget)
-    P = "p"    # Piano - Efficient/Zero-shot (0.8x budget)
-    MP = "mp"  # Mezzo-piano - Light (0.9x budget)
-    MF = "mf"  # Mezzo-forte - Standard (1.0x budget)
-    F = "f"    # Forte - Deep/Multi-shot (1.5x budget)
-    FF = "ff"  # Fortissimo - Maximum depth/CoT (>2.0x budget)
+# Protocol types - auto-generated from hct-spec/spec.yaml
+from .spec import DynamicsLevel, SignalType, Tempo
 
 
 class HoldType(str, Enum):
-    """Types of holds for FERMATA signals."""
+    """
+    Types of holds for FERMATA signals.
+    
+    Implementation-specific: not part of the HCT protocol spec.
+    """
 
     HUMAN = "human"  # Requires human approval
     GOVERNANCE = "governance"  # Requires governance check
     RESOURCE = "resource"  # Waiting for resource
     QUALITY = "quality"  # Quality threshold not met
 
-
-class HCTContext(BaseModel):
-    """
-    Transport context for State Maintenance across handoffs.
-
-    Ensures the "Movement" and "Objectives" persist across agent boundaries.
-    """
-    movement: Optional[str] = Field(default=None, description="Current movement name")
-    objectives: list[str] = Field(default_factory=list, description="Current objectives")
-    reference_frame: dict[str, Any] = Field(default_factory=dict, description="Shared reference frame")
-    prior_outputs: list[dict[str, Any]] = Field(default_factory=list, description="History of outputs")
-
-    model_config = {"use_enum_values": True}
 
 class Performance(BaseModel):
     """Performance parameters (Layer 3 in HCT)."""
@@ -120,14 +84,11 @@ class HCTSignal(BaseModel):
     performance: Performance = Field(
         default_factory=Performance, description="Performance params"
     )
-    context: Optional[HCTContext] = Field(
-        default=None, description="Maintained state context"
-    )
     conditions: Optional[Conditions] = Field(
         default=None, description="Conditional params"
     )
     timestamp: datetime = Field(
-        default_factory=datetime.utcnow, description="Signal timestamp"
+        default_factory=lambda: datetime.now(timezone.utc), description="Signal timestamp"
     )
 
     model_config = {"use_enum_values": True}
@@ -147,9 +108,6 @@ class HCTSignal(BaseModel):
             ),
             "timestamp": self.timestamp.isoformat(),
         }
-        
-        if self.context:
-            data["context"] = self.context.model_dump(exclude_none=True)
 
         return {"hct_signal": data}
 
@@ -171,11 +129,6 @@ class HCTSignal(BaseModel):
         cond = None
         if sig.get("conditions"):
             cond = Conditions(**sig["conditions"])
-            
-        # Context
-        ctx = None
-        if sig.get("context"):
-            ctx = HCTContext(**sig["context"])
 
         return cls(
             type=SignalType(sig["type"]),
@@ -184,7 +137,6 @@ class HCTSignal(BaseModel):
             payload=sig.get("payload", {}),
             performance=perf or Performance(),
             conditions=cond,
-            context=ctx,
         )
 
     def is_broadcast(self) -> bool:

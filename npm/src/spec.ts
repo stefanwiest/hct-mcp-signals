@@ -1,6 +1,6 @@
 /**
  * HCT Signal Types - Auto-generated from hct-spec/spec.yaml
- * Generated: 2025-12-18T09:18:41.154245Z
+ * Generated: 2025-12-18T10:37:34.791829Z
  *
  * DO NOT EDIT MANUALLY - Edit spec.yaml and regenerate.
  */
@@ -46,11 +46,4 @@ export enum DynamicsLevel {
     F = 'f',
     /** fortissimo */
     FF = 'ff',
-}
-
-export enum HoldType {
-    HUMAN = 'human',
-    GOVERNANCE = 'governance',
-    RESOURCE = 'resource',
-    QUALITY = 'quality',
 }

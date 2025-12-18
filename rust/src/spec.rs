@@ -1,5 +1,5 @@
 //! HCT Signal Types - Auto-generated from hct-spec/spec.yaml
-//! Generated: 2025-12-18T09:18:41.154444Z
+//! Generated: 2025-12-18T10:37:34.792098Z
 //!
 //! DO NOT EDIT MANUALLY - Edit spec.yaml and regenerate.
 
@@ -57,15 +57,4 @@ pub enum DynamicsLevel {
     F,
     /// fortissimo
     FF,
-}
-
-/// Types of holds for FERMATA signals.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize, Default)]
-#[serde(rename_all = "lowercase")]
-pub enum HoldType {
-    #[default]
-    Human,
-    Governance,
-    Resource,
-    Quality,
 }

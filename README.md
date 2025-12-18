@@ -237,6 +237,14 @@ class MemoryCoordinatedAgent(Agent):
 
 The complete protocol specification is available in [RFC.md](./RFC.md).
 
+## 🔗 Canonical Source
+
+Signal definitions are auto-generated from [hct-spec](https://github.com/stefanwiest/hct-spec):
+- `spec.py`, `spec.ts`, `spec.go`, `spec.rs` are synced via CI
+
+**Related**:
+- [hct-a2a](https://github.com/stefanwiest/hct-a2a) - A2A extension
+
 ## 🤝 Contributing
 
 Please see [CONTRIBUTING.md](./CONTRIBUTING.md).

@@ -1,47 +1,19 @@
 //! Signal type definitions and core structs.
+//!
+//! Protocol types (SignalType, Tempo, DynamicsLevel) are imported from spec.rs,
+//! which is auto-generated from hct-spec/spec.yaml.
+//!
+//! Implementation types (HoldType, Performance, Conditions, HCTSignal) are
+//! defined here as they are specific to the MCP extension implementation.
 
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-/// The 7 HCT coordination signal types.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
-#[serde(rename_all = "lowercase")]
-pub enum SignalType {
-    /// Trigger agent activation
-    Cue,
-    /// Hold for approval
-    Fermata,
-    /// Immediate transition
-    Attacca,
-    /// Repeat until condition met
-    Vamp,
-    /// Full stop
-    Caesura,
-    /// Agent inactive
-    Tacet,
-    /// Global sync point
-    Downbeat,
-}
+// Protocol types from spec.rs
+use crate::spec::{DynamicsLevel, SignalType, Tempo};
 
-/// Musical tempo indications mapped to urgency timing.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize, Default)]
-#[serde(rename_all = "lowercase")]
-pub enum Tempo {
-    /// Very slow (~1 min response OK)
-    Largo,
-    /// Walking pace (~30s response)
-    Andante,
-    /// Moderate (~15s response)
-    #[default]
-    Moderato,
-    /// Fast (~5s response)
-    Allegro,
-    /// Very fast (~1s response)
-    Presto,
-}
-
-/// Types of holds for FERMATA signals.
+/// Types of holds for FERMATA signals (implementation-specific).
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum HoldType {
@@ -65,6 +37,9 @@ pub struct Performance {
     /// Expected response timing
     #[serde(default)]
     pub tempo: Tempo,
+    /// Resource intensity
+    #[serde(default)]
+    pub dynamics: DynamicsLevel,
     /// Timeout in milliseconds
     #[serde(skip_serializing_if = "Option::is_none")]
     pub timeout_ms: Option<u64>,
@@ -75,6 +50,7 @@ impl Default for Performance {
         Self {
             urgency: default_urgency(),
             tempo: Tempo::default(),
+            dynamics: DynamicsLevel::default(),
             timeout_ms: None,
         }
     }
@@ -102,6 +78,13 @@ impl Performance {
     #[must_use]
     pub const fn with_tempo(mut self, tempo: Tempo) -> Self {
         self.tempo = tempo;
+        self
+    }
+
+    /// Set dynamics.
+    #[must_use]
+    pub const fn with_dynamics(mut self, dynamics: DynamicsLevel) -> Self {
+        self.dynamics = dynamics;
         self
     }
 
@@ -214,6 +197,7 @@ mod tests {
         let perf = Performance::default();
         assert_eq!(perf.urgency, 5);
         assert_eq!(perf.tempo, Tempo::Moderato);
+        assert_eq!(perf.dynamics, DynamicsLevel::MF);
         assert!(perf.timeout_ms.is_none());
     }
 
@@ -222,10 +206,12 @@ mod tests {
         let perf = Performance::new()
             .with_urgency(8)
             .with_tempo(Tempo::Presto)
+            .with_dynamics(DynamicsLevel::FF)
             .with_timeout_ms(5000);
 
         assert_eq!(perf.urgency, 8);
         assert_eq!(perf.tempo, Tempo::Presto);
+        assert_eq!(perf.dynamics, DynamicsLevel::FF);
         assert_eq!(perf.timeout_ms, Some(5000));
     }
 

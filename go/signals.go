@@ -4,6 +4,12 @@
 // based multi-agent systems using 7 coordination signals inspired by musical
 // ensemble coordination.
 //
+// Protocol types (SignalType, Tempo, DynamicsLevel) are defined in spec.go,
+// which is auto-generated from hct-spec/spec.yaml.
+//
+// Implementation types (HoldType, Performance, Conditions, HCTSignal) are
+// defined here as they are specific to the MCP extension implementation.
+//
 // # Quick Start
 //
 //	signal := hctmcpsignals.NewCue("orchestrator", []string{"analyst"},
@@ -28,31 +34,7 @@ import (
 	"time"
 )
 
-// SignalType defines the 7 HCT coordination signals.
-type SignalType string
-
-const (
-	Cue      SignalType = "cue"
-	Fermata  SignalType = "fermata"
-	Attacca  SignalType = "attacca"
-	Vamp     SignalType = "vamp"
-	Caesura  SignalType = "caesura"
-	Tacet    SignalType = "tacet"
-	Downbeat SignalType = "downbeat"
-)
-
-// Tempo defines urgency timing.
-type Tempo string
-
-const (
-	Largo    Tempo = "largo"    // Very slow (~1 min response OK)
-	Andante  Tempo = "andante"  // Walking pace (~30s response)
-	Moderato Tempo = "moderato" // Moderate (~15s response)
-	Allegro  Tempo = "allegro"  // Fast (~5s response)
-	Presto   Tempo = "presto"   // Very fast (~1s response)
-)
-
-// HoldType for FERMATA signals.
+// HoldType for FERMATA signals (implementation-specific).
 type HoldType string
 
 const (
@@ -64,9 +46,10 @@ const (
 
 // Performance parameters (Layer 3 in HCT).
 type Performance struct {
-	Urgency   int    `json:"urgency,omitempty"`
-	Tempo     Tempo  `json:"tempo,omitempty"`
-	TimeoutMs *int64 `json:"timeout_ms,omitempty"`
+	Urgency   int           `json:"urgency,omitempty"`
+	Tempo     Tempo         `json:"tempo,omitempty"`
+	Dynamics  DynamicsLevel `json:"dynamics,omitempty"`
+	TimeoutMs *int64        `json:"timeout_ms,omitempty"`
 }
 
 // Conditions for conditional signals (FERMATA, VAMP).

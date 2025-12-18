@@ -1,5 +1,5 @@
 // HCT Signal Types - Auto-generated from hct-spec/spec.yaml
-// Generated: 2025-12-18T09:18:41.154342Z
+// Generated: 2025-12-18T10:37:34.791964Z
 //
 // DO NOT EDIT MANUALLY - Edit spec.yaml and regenerate.
 
@@ -38,14 +38,4 @@ const (
 	DynamicsMF DynamicsLevel = "mf" // mezzo-forte
 	DynamicsF DynamicsLevel = "f" // forte
 	DynamicsFF DynamicsLevel = "ff" // fortissimo
-)
-
-// HoldType for FERMATA signals.
-type HoldType string
-
-const (
-	HoldHuman HoldType = "human"
-	HoldGovernance HoldType = "governance"
-	HoldResource HoldType = "resource"
-	HoldQuality HoldType = "quality"
 )

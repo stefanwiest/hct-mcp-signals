@@ -1,42 +1,18 @@
 /**
  * HCT Signal Type Definitions
  *
- * Core types for HCT coordination signals.
+ * Protocol types (SignalType, Tempo, DynamicsLevel) are imported from spec.ts,
+ * which is auto-generated from hct-spec/spec.yaml.
+ *
+ * Implementation types (HoldType, Performance, Conditions, HCTSignal) are
+ * defined here as they are specific to the MCP extension implementation.
  */
 
-/** Signal types corresponding to musical coordination signals */
-export enum SignalType {
-    /** Trigger agent activation */
-    CUE = 'cue',
-    /** Hold for approval */
-    FERMATA = 'fermata',
-    /** Immediate transition */
-    ATTACCA = 'attacca',
-    /** Repeat until condition met */
-    VAMP = 'vamp',
-    /** Full stop */
-    CAESURA = 'caesura',
-    /** Agent inactive */
-    TACET = 'tacet',
-    /** Global sync point */
-    DOWNBEAT = 'downbeat',
-}
+// Protocol types - auto-generated from hct-spec/spec.yaml
+export { SignalType, Tempo, DynamicsLevel } from './spec';
+import { SignalType, Tempo, DynamicsLevel } from './spec';
 
-/** Musical tempo indications mapped to urgency */
-export enum Tempo {
-    /** Very slow (~1 min response OK) */
-    LARGO = 'largo',
-    /** Walking pace (~30s response) */
-    ANDANTE = 'andante',
-    /** Moderate (~15s response) */
-    MODERATO = 'moderato',
-    /** Fast (~5s response) */
-    ALLEGRO = 'allegro',
-    /** Very fast (~1s response) */
-    PRESTO = 'presto',
-}
-
-/** Types of holds for FERMATA signals */
+/** Types of holds for FERMATA signals (implementation-specific) */
 export enum HoldType {
     /** Requires human approval */
     HUMAN = 'human',
@@ -54,6 +30,8 @@ export interface Performance {
     urgency?: number;
     /** Expected response timing */
     tempo?: Tempo;
+    /** Resource intensity */
+    dynamics?: DynamicsLevel;
     /** Timeout in milliseconds */
     timeout_ms?: number;
 }
@@ -90,5 +68,6 @@ export interface HCTSignal {
 export const DEFAULT_PERFORMANCE: Required<Performance> = {
     urgency: 5,
     tempo: Tempo.MODERATO,
+    dynamics: DynamicsLevel.MF,
     timeout_ms: 30000,
 };
