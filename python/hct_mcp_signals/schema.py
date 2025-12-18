@@ -2,6 +2,9 @@
 HCT-MCP Signal Schema Definitions
 
 Pydantic models for HCT coordination signals.
+
+NOTE: These definitions are derived from the canonical specification at:
+      https://github.com/stefanwiest/genesis/tree/main/hct-spec/spec.yaml
 """
 
 import json
